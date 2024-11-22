@@ -3,13 +3,15 @@ package main
 import (
 	"fmt"
 	"hscottvo/cubespin/cube"
+	"hscottvo/cubespin/pane"
 	"hscottvo/cubespin/tick"
 	"time"
 )
 
 func main() {
-	ticker := tick.NewTicker(30, 1)
+	p := pane.NewPane(35, 100)
 	c := cube.NewCube()
+	ticker := tick.NewTicker(144, 1)
 	count := 0
 	done := make(chan bool)
 	go func() {
@@ -25,6 +27,8 @@ func main() {
 					str += c.Display()
 				}
 				fmt.Print(str, "\n")
+				fmt.Println(p.Display())
+				fmt.Print("\n")
 				count += 1
 			}
 		}
