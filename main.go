@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-	cube := Cube.NewCube()
 	ticker := tick.NewTicker(30, 1)
+	c := cube.NewCube()
 	count := 0
 	done := make(chan bool)
 	go func() {
@@ -22,7 +22,7 @@ func main() {
 				fmt.Println("Frame ", count)
 				str := ""
 				for range count {
-					str += cube.Display()
+					str += c.Display()
 				}
 				fmt.Print(str, "\n")
 				count += 1

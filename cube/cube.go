@@ -1,4 +1,4 @@
-package Cube
+package cube
 
 type Cube struct {
 	center int
