@@ -22,19 +22,27 @@ type Vec2 struct {
 	Y float64
 }
 
-func (v Vec2) Rotate2D(a Angle, pX float64, pY float64) {
+func NewVec2(x float64, y float64) *Vec2 {
+	ret := Vec2{X: x, Y: y}
+	return &ret
+}
+
+func (v Vec2) Rotate2D(a Angle, pX float64, pY float64) *Vec2 {
+	ret := v
+
 	aboutOrigin := pX != 0 || pY != 0
 	if aboutOrigin {
-		v.X -= pX
-		v.Y -= pY
+		ret.X -= pX
+		ret.Y -= pY
 	}
 
-	v.X = v.X*math.Cos(a.r) + v.X*math.Sin(a.r)
-	v.Y = v.Y*math.Cos(a.r) + -1*v.Y*math.Sin(a.r)
+	ret.X = v.X*math.Cos(a.r) + v.X*math.Sin(a.r)
+	ret.Y = v.Y*math.Cos(a.r) + -1*v.Y*math.Sin(a.r)
 
 	if aboutOrigin {
-		v.X += pX
-		v.Y += pY
+		ret.X += pX
+		ret.Y += pY
 
 	}
+	return &ret
 }
