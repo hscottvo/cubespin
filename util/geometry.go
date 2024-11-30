@@ -46,3 +46,9 @@ func (v Vec2) Rotate2D(a Angle, pX float64, pY float64) *Vec2 {
 	}
 	return &ret
 }
+
+func (v Vec2) Add2D(other Vec2) *Vec2 {
+	ret := Vec2{X: v.X + other.X, Y: v.Y + other.Y}
+	return &ret
+}
+
