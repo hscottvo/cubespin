@@ -2,9 +2,14 @@ package triangle
 
 import (
 	// "errors"
+	"fmt"
 	"hscottvo/cubespin/geometry"
 	"hscottvo/cubespin/pane"
 	"math"
+)
+
+const (
+	RENDER_THRESH float64 = 0.0001
 )
 
 type Triangle3D struct {
@@ -42,6 +47,9 @@ func (t Triangle3D) Render(p *pane.Pane) {
 				p.Pixels[p.Height-j-1][i] = t.pixel
 				p.ZValues[p.Height-j-1][i] = hit.Z
 
+			} else {
+				p.Pixels[p.Height-j-1][i] = '-'
+				p.ZValues[p.Height-j-1][i] = math.MaxFloat64
 			}
 
 		}
@@ -53,7 +61,7 @@ func (t Triangle3D) Hit(P geometry.Vec3) *geometry.Vec3 {
 	z := P.ProjectPlaneZ(t.Norm, t.k)
 	P.Z = z
 	alpha, beta, gamma := t.barycentric2D(P)
-	if alpha+beta+gamma == 1 {
+	if math.Abs(alpha+beta+gamma-1) < RENDER_THRESH {
 		return &P
 	}
 	return nil
@@ -65,15 +73,27 @@ func (t *Triangle3D) Move(vec geometry.Vec3) {
 	t.C = t.C.Add3D(vec)
 }
 
+func (t *Triangle3D) Rotate(about geometry.Vec3, xRotation geometry.Angle, yRotation geometry.Angle, zRotation geometry.Angle) {
+	fmt.Printf("Rotating around %v by %v\n", about, xRotation)
+	fmt.Printf("A: %v, B: %v, C: %v\n", t.A, t.B, t.C)
+	t.A = t.A.Rotate3D(about, xRotation, yRotation, zRotation)
+	t.B = t.B.Rotate3D(about, xRotation, yRotation, zRotation)
+	t.C = t.C.Rotate3D(about, xRotation, yRotation, zRotation)
+	fmt.Printf("A: %v, B: %v, C: %v\n", t.A, t.B, t.C)
+	AB := t.B.Sub3D(t.A)
+	AC := t.C.Sub3D(t.A)
+
+	t.Norm = geometry.Cross3D(AB, AC)
+	t.k = t.A.X*t.Norm.X + t.A.Y*t.Norm.Y + t.A.Z*t.Norm.Z
+}
+
 // P has to be on the same plane as t
 func (t Triangle3D) barycentric2D(P geometry.Vec3) (float64, float64, float64) {
-	// areaABC := ma
 	AB := t.B.Sub3D(t.A)
 	AC := t.C.Sub3D(t.A)
 	CA := t.A.Sub3D(t.C)
 	BC := t.C.Sub3D(t.B)
 
-	// PA := t.A.Sub3D(P)//
 	AP := P.Sub3D(t.A)
 	BP := P.Sub3D(t.B)
 	CP := P.Sub3D(t.C)
