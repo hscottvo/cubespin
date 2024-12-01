@@ -1,6 +1,8 @@
 package pane
 
-import "math"
+import (
+	"math"
+)
 
 type Pane struct {
 	Pixels  [][]rune
@@ -26,7 +28,7 @@ func NewPane(height int, width int) *Pane {
 	return &p
 }
 
-func (p Pane) Display() string {
+func (p *Pane) Display() string {
 	s := ""
 	s += "╔"
 	for range p.Width {
