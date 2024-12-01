@@ -7,6 +7,10 @@ import (
 	"math"
 )
 
+const (
+	RENDER_THRESH float64 = 0.0001
+)
+
 type Triangle3D struct {
 	A     geometry.Vec3
 	B     geometry.Vec3
@@ -53,7 +57,7 @@ func (t Triangle3D) Hit(P geometry.Vec3) *geometry.Vec3 {
 	z := P.ProjectPlaneZ(t.Norm, t.k)
 	P.Z = z
 	alpha, beta, gamma := t.barycentric2D(P)
-	if alpha+beta+gamma == 1 {
+	if math.Abs(alpha+beta+gamma-1) < RENDER_THRESH {
 		return &P
 	}
 	return nil
