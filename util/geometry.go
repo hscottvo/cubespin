@@ -1,6 +1,9 @@
 package geometry
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 type Angle struct {
 	r float64
@@ -17,38 +20,34 @@ func (a Angle) Add(r float64) {
 
 }
 
-type Vec2 struct {
+type Vec3 struct {
 	X float64
 	Y float64
+	Z float64
 }
 
-func NewVec2(x float64, y float64) *Vec2 {
-	ret := Vec2{X: x, Y: y}
-	return &ret
+func NewVec3(x float64, y float64, z float64) Vec3 {
+	ret := Vec3{X: x, Y: y, Z: z}
+	return ret
 }
 
-func (v Vec2) Rotate2D(a Angle, pX float64, pY float64) *Vec2 {
+func (v Vec3) Rotate3D(a Angle, pX float64, pY float64) Vec3 {
 	ret := v
-
-	aboutOrigin := pX != 0 || pY != 0
-	if aboutOrigin {
-		ret.X -= pX
-		ret.Y -= pY
-	}
-
-	ret.X = v.X*math.Cos(a.r) + v.X*math.Sin(a.r)
-	ret.Y = v.Y*math.Cos(a.r) + -1*v.Y*math.Sin(a.r)
-
-	if aboutOrigin {
-		ret.X += pX
-		ret.Y += pY
-
-	}
-	return &ret
+	fmt.Print("Not implemented: Rotate3D")
+	return ret
 }
 
-func (v Vec2) Add2D(other Vec2) *Vec2 {
-	ret := Vec2{X: v.X + other.X, Y: v.Y + other.Y}
-	return &ret
+func (v Vec3) Add2D(other Vec3) Vec3 {
+	return Vec3{X: v.X + other.X, Y: v.Y + other.Y}
 }
 
+func Dist3D(a Vec3, b Vec3) float64 {
+	return math.Sqrt((a.X-b.X)*(a.X-b.X) + (a.Y-b.Y)*(a.Y-b.Y) + (a.Z-b.Z)*(a.Z-b.Z))
+}
+
+func Cross3D(a Vec3, b Vec3) Vec3 {
+	i := a.Y*b.Z - b.Y*a.Z
+	j := b.X*a.Z - a.X*b.Z
+	k := a.X*b.Y - b.X*a.Y
+	return NewVec3(i, j, k)
+}
