@@ -1,21 +1,27 @@
 package pane
 
+import "math"
+
 type Pane struct {
-	pixels [][]rune
-	width  int
-	height int
+	Pixels  [][]rune
+	ZValues [][]float64
+	Width   int
+	Height  int
 }
 
 // (dist from top, dist from left)
 func NewPane(height int, width int) *Pane {
 	var pixels = make([][]rune, height)
+	var zValues = make([][]float64, height)
 	for i := range height {
 		pixels[i] = make([]rune, width)
+		zValues[i] = make([]float64, width)
 		for j := range width {
 			pixels[i][j] = ' '
+			zValues[i][j] = math.MaxFloat64
 		}
 	}
-	p := Pane{pixels: pixels, width: width, height: height}
+	p := Pane{Pixels: pixels, ZValues: zValues, Width: width, Height: height}
 
 	return &p
 }
@@ -23,21 +29,21 @@ func NewPane(height int, width int) *Pane {
 func (p Pane) Display() string {
 	s := ""
 	s += "╔"
-	for range p.width {
+	for range p.Width {
 		s += "═"
 	}
 	s += "╗\n"
 
-	for i := range p.height {
+	for i := range p.Height {
 		curr_string := ""
-		for j := range p.width {
-			curr_string += string(p.pixels[i][j])
+		for j := range p.Width {
+			curr_string += string(p.Pixels[i][j])
 		}
 		s += "║" + curr_string + "║\n"
 	}
 
 	s += "╚"
-	for range p.width {
+	for range p.Width {
 		s += "═"
 	}
 	s += "╝\n"
