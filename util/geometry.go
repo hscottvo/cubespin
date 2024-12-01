@@ -37,8 +37,12 @@ func (v Vec3) Rotate3D(a Angle, pX float64, pY float64) Vec3 {
 	return ret
 }
 
-func (v Vec3) Add2D(other Vec3) Vec3 {
-	return Vec3{X: v.X + other.X, Y: v.Y + other.Y}
+func (v Vec3) Add3D(other Vec3) Vec3 {
+	return NewVec3(v.X+other.X, v.Y+other.Y, v.Z+other.Z)
+}
+
+func (v Vec3) Magnitude3D() float64 {
+	return Dist3D(v, NewVec3(0, 0, 0))
 }
 
 func Dist3D(a Vec3, b Vec3) float64 {
