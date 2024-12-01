@@ -2,7 +2,6 @@ package triangle
 
 import (
 	// "errors"
-	"fmt"
 	"hscottvo/cubespin/geometry"
 	"hscottvo/cubespin/pane"
 	"math"
@@ -60,10 +59,8 @@ func (t Triangle3D) Hit(P geometry.Vec3) *geometry.Vec3 {
 	return nil
 }
 
-func (t Triangle3D) Move(vec geometry.Vec3) {
-	fmt.Printf("A before: %v ", t.A)
+func (t *Triangle3D) Move(vec geometry.Vec3) {
 	t.A = t.A.Add3D(vec)
-	fmt.Printf("A after: %v\n", t.A)
 	t.B = t.B.Add3D(vec)
 	t.C = t.C.Add3D(vec)
 }

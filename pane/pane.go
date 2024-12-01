@@ -49,3 +49,11 @@ func (p Pane) Display() string {
 	s += "╝\n"
 	return s
 }
+func (p *Pane) Clear() {
+	for i := range p.Height {
+		for j := range p.Width {
+			p.Pixels[i][j] = ' '
+			p.ZValues[i][j] = math.MaxFloat64
+		}
+	}
+}

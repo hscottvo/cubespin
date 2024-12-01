@@ -14,7 +14,7 @@ func main() {
 	p := pane.NewPane(35, 100)
 	t := triangle.NewTriangle(geometry.NewVec3(0, 0, 5), geometry.NewVec3(0, 5, 5), geometry.NewVec3(5, 5, 5), '▓')
 	// t2 := triangle.NewTriangle(geometry.NewVec3(20, 20, 5), geometry.NewVec3(10, 10, 5), geometry.NewVec3(11, 13, 5), 'o')
-	ticker := tick.NewTicker(144, 1)
+	ticker := tick.NewTicker(10, 1)
 	count := 0
 	done := make(chan bool)
 	go func() {
@@ -24,6 +24,7 @@ func main() {
 				return
 			case <-ticker.Tick():
 				fmt.Print("\033[H\033[2J")
+				p.Clear()
 				t.Move(geometry.NewVec3(10, 0, 0))
 				t.Render(p)
 				// t2.Render(p)
