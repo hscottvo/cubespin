@@ -37,8 +37,17 @@ func (v Vec3) Rotate3D(a Angle, pX float64, pY float64) Vec3 {
 	return ret
 }
 
+func (v Vec3) Negate3D() Vec3 {
+	return NewVec3(-v.X, -v.Y, -v.Z)
+}
+
 func (v Vec3) Add3D(other Vec3) Vec3 {
 	return NewVec3(v.X+other.X, v.Y+other.Y, v.Z+other.Z)
+}
+
+func (v Vec3) Sub3D(other Vec3) Vec3 {
+	other = other.Negate3D()
+	return v.Add3D(other)
 }
 
 func (v Vec3) Magnitude3D() float64 {
@@ -54,4 +63,8 @@ func Cross3D(a Vec3, b Vec3) Vec3 {
 	j := b.X*a.Z - a.X*b.Z
 	k := a.X*b.Y - b.X*a.Y
 	return NewVec3(i, j, k)
+}
+
+func (v Vec3) ProjectPlaneZ(norm Vec3, k float64) float64 {
+	return (k - norm.X*v.X - norm.Y*v.Y) / norm.Z
 }

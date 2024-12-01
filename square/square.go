@@ -1,7 +1,7 @@
 package square
 
 import (
-	"hscottvo/cubespin/util"
+	"hscottvo/cubespin/geometry"
 )
 
 type Square struct {
