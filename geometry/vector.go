@@ -1,7 +1,6 @@
 package geometry
 
 import (
-	"fmt"
 	"math"
 )
 
@@ -9,9 +8,23 @@ type Angle struct {
 	r float64
 }
 
-func NewAngle(r float64) *Angle {
-	newRotation := math.Mod(r, 360)
+func (a Angle) Degree() float64 {
+	return a.r
+}
+
+func (a Angle) Radian() float64 {
+	return a.r * (math.Pi / 180)
+}
+
+func NewAngleDegrees(deg float64) *Angle {
+	newRotation := math.Mod(deg, 360)
 	a := Angle{r: newRotation}
+	return &a
+}
+
+func NewAngleRadians(rad float64) *Angle {
+	newRotation := math.Mod(rad, 2*math.Pi)
+	a := Angle{r: newRotation * (180 / math.Pi)}
 	return &a
 }
 
@@ -31,9 +44,35 @@ func NewVec3(x float64, y float64, z float64) Vec3 {
 	return ret
 }
 
-func (v Vec3) Rotate3D(a Angle, pX float64, pY float64) Vec3 {
-	ret := v
-	fmt.Print("Not implemented: Rotate3D")
+func (v Vec3) Rotate3D(about Vec3, xRotation Angle, yRotation Angle, zRotation Angle) Vec3 {
+	ret := v.Sub3D(about)
+	xRad := xRotation.Radian()
+	yRad := yRotation.Radian()
+	zRad := zRotation.Radian()
+
+	// about X
+	ret = NewVec3(
+		ret.X,
+		ret.Y*math.Cos(xRad)-ret.Z*math.Sin(xRad),
+		ret.Y*math.Sin(xRad)+ret.Z*math.Cos(xRad),
+	)
+
+	// about Y
+	ret = NewVec3(
+		ret.X*math.Cos(yRad)+ret.Z*math.Sin(yRad),
+		ret.Y,
+		-ret.X*math.Sin(yRad)+ret.Z*math.Cos(yRad),
+	)
+
+	// about Z
+	ret = NewVec3(
+		ret.X*math.Cos(zRad)-ret.Y*math.Sin(zRad),
+		ret.X*math.Sin(zRad)+ret.Y*math.Cos(zRad),
+		ret.Z,
+	)
+
+	// fmt.Print("Not implemented: Rotate3D")
+	ret = ret.Add3D(about)
 	return ret
 }
 
