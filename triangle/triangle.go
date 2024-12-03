@@ -80,6 +80,11 @@ func (t *Triangle3D) Rotate(about geometry.Vec3, xRotation geometry.Angle, yRota
 	t.B = t.B.Rotate3D(about, xRotation, yRotation, zRotation)
 	t.C = t.C.Rotate3D(about, xRotation, yRotation, zRotation)
 	fmt.Printf("A: %v, B: %v, C: %v\n", t.A, t.B, t.C)
+	AB := t.B.Sub3D(t.A)
+	AC := t.C.Sub3D(t.A)
+
+	t.Norm = geometry.Cross3D(AB, AC)
+	t.k = t.A.X*t.Norm.X + t.A.Y*t.Norm.Y + t.A.Z*t.Norm.Z
 }
 
 // P has to be on the same plane as t
