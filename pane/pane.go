@@ -4,11 +4,16 @@ import (
 	"math"
 )
 
+type RenderObject interface {
+	Render(*Pane)
+}
+
 type Pane struct {
 	Pixels  [][]rune
 	ZValues [][]float64
 	Width   int
 	Height  int
+	objects []RenderObject
 }
 
 // (dist from top, dist from left)
@@ -28,7 +33,19 @@ func NewPane(height int, width int) *Pane {
 	return &p
 }
 
+func (p *Pane) AddObject(obj RenderObject) {
+	p.objects = append(p.objects, obj)
+}
+
+func (p *Pane) render() {
+	for _, i := range p.objects {
+		i.Render(p)
+	}
+}
+
 func (p *Pane) Display() string {
+	p.clear()
+	p.render()
 	s := ""
 	s += "╔"
 	for range p.Width {
@@ -51,7 +68,7 @@ func (p *Pane) Display() string {
 	s += "╝\n"
 	return s
 }
-func (p *Pane) Clear() {
+func (p *Pane) clear() {
 	for i := range p.Height {
 		for j := range p.Width {
 			p.Pixels[i][j] = ' '

@@ -2,7 +2,7 @@ package triangle
 
 import (
 	// "errors"
-	"fmt"
+
 	"hscottvo/cubespin/geometry"
 	"hscottvo/cubespin/pane"
 	"math"
@@ -21,12 +21,13 @@ type Triangle3D struct {
 	pixel rune
 }
 
-func NewTriangle(a geometry.Vec3, b geometry.Vec3, c geometry.Vec3, pixel rune) Triangle3D {
+func NewTriangle(a geometry.Vec3, b geometry.Vec3, c geometry.Vec3, pixel rune) *Triangle3D {
 	AB := b.Sub3D(a)
 	AC := c.Sub3D(a)
 	norm := geometry.Cross3D(AB, AC)
 	k := a.X*norm.X + a.Y*norm.Y + a.Z*norm.Z
-	return Triangle3D{A: a, B: b, C: c, Norm: norm, k: k, pixel: pixel}
+	t := Triangle3D{A: a, B: b, C: c, Norm: norm, k: k, pixel: pixel}
+	return &t
 }
 
 func (t Triangle3D) Render(p *pane.Pane) {
@@ -48,8 +49,8 @@ func (t Triangle3D) Render(p *pane.Pane) {
 				p.ZValues[p.Height-j-1][i] = hit.Z
 
 			} else {
-				p.Pixels[p.Height-j-1][i] = '-'
-				p.ZValues[p.Height-j-1][i] = math.MaxFloat64
+				// p.Pixels[p.Height-j-1][i] = '-'
+				// p.ZValues[p.Height-j-1][i] = math.MaxFloat64
 			}
 
 		}
@@ -74,12 +75,9 @@ func (t *Triangle3D) Move(vec geometry.Vec3) {
 }
 
 func (t *Triangle3D) Rotate(about geometry.Vec3, xRotation geometry.Angle, yRotation geometry.Angle, zRotation geometry.Angle) {
-	fmt.Printf("Rotating around %v by %v\n", about, xRotation)
-	fmt.Printf("A: %v, B: %v, C: %v\n", t.A, t.B, t.C)
 	t.A = t.A.Rotate3D(about, xRotation, yRotation, zRotation)
 	t.B = t.B.Rotate3D(about, xRotation, yRotation, zRotation)
 	t.C = t.C.Rotate3D(about, xRotation, yRotation, zRotation)
-	fmt.Printf("A: %v, B: %v, C: %v\n", t.A, t.B, t.C)
 	AB := t.B.Sub3D(t.A)
 	AC := t.C.Sub3D(t.A)
 

@@ -104,6 +104,10 @@ func Cross3D(a Vec3, b Vec3) Vec3 {
 	return NewVec3(i, j, k)
 }
 
+func Dot3D(a Vec3, b Vec3) float64 {
+	return a.X*b.X + a.Y*b.Y + a.Z*b.Z
+}
+
 func (v Vec3) ProjectPlaneZ(norm Vec3, k float64) float64 {
 	return (k - norm.X*v.X - norm.Y*v.Y) / norm.Z
 }
