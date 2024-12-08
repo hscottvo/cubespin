@@ -47,7 +47,8 @@ func (p *Pane) Display() string {
 	p.clear()
 	p.render()
 	s := ""
-	s += "╔"
+	s += " ╔"
+
 	for range p.Width {
 		s += "═"
 	}
@@ -58,10 +59,10 @@ func (p *Pane) Display() string {
 		for j := range p.Width {
 			curr_string += string(p.Pixels[i][j])
 		}
-		s += "║" + curr_string + "║\n"
+		s += " ║" + curr_string + "║\n"
 	}
 
-	s += "╚"
+	s += " ╚"
 	for range p.Width {
 		s += "═"
 	}
