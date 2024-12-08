@@ -24,7 +24,7 @@ type Triangle3D struct {
 func NewTriangle(a geometry.Vec3, b geometry.Vec3, c geometry.Vec3, pixel rune) *Triangle3D {
 	AB := b.Sub3D(a)
 	AC := c.Sub3D(a)
-	norm := geometry.Cross3D(AB, AC)
+	norm := geometry.Cross3D(AB, AC).Normalize()
 	k := a.X*norm.X + a.Y*norm.Y + a.Z*norm.Z
 	t := Triangle3D{A: a, B: b, C: c, Norm: norm, k: k, pixel: pixel}
 	return &t
@@ -81,7 +81,7 @@ func (t *Triangle3D) Rotate(about geometry.Vec3, xRotation geometry.Angle, yRota
 	AB := t.B.Sub3D(t.A)
 	AC := t.C.Sub3D(t.A)
 
-	t.Norm = geometry.Cross3D(AB, AC)
+	t.Norm = geometry.Cross3D(AB, AC).Normalize()
 	t.k = t.A.X*t.Norm.X + t.A.Y*t.Norm.Y + t.A.Z*t.Norm.Z
 }
 
