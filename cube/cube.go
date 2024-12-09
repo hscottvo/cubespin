@@ -51,7 +51,7 @@ func NewCube(center geometry.Vec3, sideLength float64) *Cube {
 	aecg := NewSquareFromPoints(a, e, c, g, '▒')
 	bfdh := NewSquareFromPoints(b, f, d, h, '░')
 	efab := NewSquareFromPoints(e, f, a, b, 'O')
-	efgh := NewSquareFromPoints(e, f, h, g, '█')
+	efgh := NewSquareFromPoints(e, f, g, h, '█')
 	ghcd := NewSquareFromPoints(g, h, c, d, '.')
 
 	var faces []*square

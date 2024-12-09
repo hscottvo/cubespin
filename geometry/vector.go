@@ -89,6 +89,15 @@ func (v Vec3) Sub3D(other Vec3) Vec3 {
 	return v.Add3D(other)
 }
 
+func (v Vec3) Normalize() Vec3 {
+	mag := v.Magnitude3D()
+	xNew := v.X / mag
+	yNew := v.Y / mag
+	zNew := v.Z / mag
+
+	return Vec3{X: xNew, Y: yNew, Z: zNew}
+}
+
 func (v Vec3) Magnitude3D() float64 {
 	return Dist3D(v, NewVec3(0, 0, 0))
 }
