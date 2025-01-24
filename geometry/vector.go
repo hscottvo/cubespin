@@ -28,7 +28,7 @@ func NewAngleRadians(rad float64) *Angle {
 	return &a
 }
 
-func (a Angle) Add(r float64) {
+func (a *Angle) Add(r float64) {
 	a.r = math.Mod(a.r+r, 360)
 
 }

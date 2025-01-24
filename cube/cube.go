@@ -84,6 +84,13 @@ func (c *Cube) Rotate(about geometry.Vec3, xRotation geometry.Angle, yRotation g
 
 }
 
+func (c *Cube) Move(vec geometry.Vec3) {
+	for _, i := range c.faces {
+		i.Move(vec)
+	}
+	c.center = c.center.Add3D(vec)
+}
+
 type square struct {
 	a *triangle.Triangle3D
 	b *triangle.Triangle3D

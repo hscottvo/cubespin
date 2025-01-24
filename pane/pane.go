@@ -1,6 +1,7 @@
 package pane
 
 import (
+	"hscottvo/cubespin/geometry"
 	"math"
 )
 
@@ -8,16 +9,19 @@ type RenderObject interface {
 	Render(*Pane)
 }
 
+// cast triangles to plane of pane
 type Pane struct {
-	Pixels  [][]rune
-	ZValues [][]float64
-	Width   int
-	Height  int
-	objects []RenderObject
+	Pixels   [][]rune
+	ZValues  [][]float64
+	Width    int
+	Height   int
+	objects  []RenderObject
+	position geometry.Vec3
+	normal   geometry.Vec3
 }
 
 // (dist from top, dist from left)
-func NewPane(height int, width int) *Pane {
+func NewPane(height int, width int, position geometry.Vec3, normal geometry.Vec3) *Pane {
 	var pixels = make([][]rune, height)
 	var zValues = make([][]float64, height)
 	for i := range height {
@@ -28,7 +32,7 @@ func NewPane(height int, width int) *Pane {
 			zValues[i][j] = math.MaxFloat64
 		}
 	}
-	p := Pane{Pixels: pixels, ZValues: zValues, Width: width, Height: height}
+	p := Pane{Pixels: pixels, ZValues: zValues, Width: width, Height: height, position: position, normal: normal}
 
 	return &p
 }

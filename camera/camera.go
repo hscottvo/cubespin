@@ -15,7 +15,7 @@ const (
 
 type Camera struct {
 	position     geometry.Vec3
-	direction    geometry.Vec3
+	direction    geometry.Vec3 // x, y, z rotation
 	perspective  int
 	pane         pane.Pane
 	height       float64
@@ -23,9 +23,11 @@ type Camera struct {
 	paneDistance float64
 }
 
+// casts a ray from the camera to the enpoint (usually a pixel in a pane)
 func (c *Camera) Ray(endpoint geometry.Vec3, persp Perspective) geometry.Vec3 {
 	switch persp {
 	case UI:
+		// TODO: cast ui to pane correctly instead of just setting z to 0
 		endpoint.Z = 0
 		return endpoint
 	case Raytrace:
